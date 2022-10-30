@@ -34,11 +34,19 @@ contract VolcanoCoin is Ownable {
         balances[msg.sender] -= amount;
         balances[to] += amount;
         
-        Payment memory newPayment = Payment(amount, to);
-
-        Payment[] storage senderPayments = payments[msg.sender];
-        senderPayments.push(newPayment);
+        recordPayment(msg.sender, to, amount);
 
         emit TokenTransfer(amount, msg.sender, to);
+    }
+
+    function getPaymentsFrom(address from) public view returns(Payment[] memory) {
+        return payments[from];
+    }
+
+    function recordPayment(address from, address to, uint256 amount) internal {
+        Payment memory newPayment = Payment(amount, to);
+
+        Payment[] storage senderPayments = payments[from];
+        senderPayments.push(newPayment);
     }
 }
