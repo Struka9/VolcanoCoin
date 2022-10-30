@@ -1,9 +1,9 @@
 pragma solidity 0.8.13;
 // SPDX-License-Identifier: UNLICENSED.
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "openzeppelin-contracts/access/Ownable.sol";
 
-contract VolcanoCoin {
+contract VolcanoCoin is Ownable {
 
     struct Payment {
         uint256 amount;
@@ -12,25 +12,17 @@ contract VolcanoCoin {
 
     mapping(address => Payment[]) payments;
     uint256 totalSupply;
-    address owner;
     mapping(address => uint256) public balances;
-
-    modifier onlyOwner {
-        if (msg.sender == owner) {
-            _;
-        }
-    }
 
     event TotalSupplyChanged(uint256 newSupply);
     event TokenTransfer(uint256 amount, address from, address to);
 
     constructor() {
         totalSupply = 10000;
-        owner = msg.sender;
-        balances[owner] = totalSupply;
+        balances[owner()] = totalSupply;
     }
 
-    function increaseSupply() onlyOwner public {
+    function increaseSupply() onlyOwner() public {
         totalSupply += 1000;
     }
 
