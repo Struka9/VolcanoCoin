@@ -11,7 +11,7 @@ contract VolcanoCoin is Ownable {
     }
 
     mapping(address => Payment[]) payments;
-    uint256 totalSupply;
+    uint256 public totalSupply;
     mapping(address => uint256) public balances;
 
     event TotalSupplyChanged(uint256 newSupply);
